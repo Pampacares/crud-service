@@ -4,6 +4,9 @@ jobs:
   build:  
     docker:
       - image: cimg/openjdk:11.0
+      
+    working_directory: ~/
+    
     steps:
       - checkout
       - run:
@@ -12,6 +15,9 @@ jobs:
   test:
     docker:
       - image: cimg/openjdk:11.0
+            
+    working_directory: ~/
+    
     steps:
       - checkout
       - run:
@@ -20,13 +26,17 @@ jobs:
   deploy-develop:
     docker:
       - image: cimg/openjdk:11.0
+            
+    working_directory: ~/
 
     steps:
       - checkout
   deploy-prod:
     docker:
       - image: cimg/openjdk:11.0
-
+      
+    working_directory: ~/
+    
     steps:
       - checkout
 
