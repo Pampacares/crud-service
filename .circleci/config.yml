@@ -2,7 +2,6 @@ version: 2.1
 
 jobs:
   build: 
-    working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0
     steps:
@@ -37,8 +36,10 @@ workflows:
   build-and-deploy-on-hold:
     jobs:
       - build:
+          working_directory: ~/repo
 
       - test:
+          working_directory: ~/repo
           requires:
             - build
 
