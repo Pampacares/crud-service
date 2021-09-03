@@ -23,7 +23,6 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0
-      - image: circleci/mysql:latest
     steps:
       - checkout
       - run:
@@ -52,8 +51,8 @@ workflows:
 #           requires:
 #             - start-docker
       - test
-#           requires:
-#             - build
+          requires:
+            - start-docker
 
 #       - hold:
 #           type: approval
