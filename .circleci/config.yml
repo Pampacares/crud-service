@@ -57,28 +57,28 @@ workflows:
 #           requires:
 #             - build
 
-      - hold:
-          type: approval
-          requires:
-            - test
-          filters:
-            branches:
-              only: main
+#       - hold:
+#           type: approval
+#           requires:
+#             - test
+#           filters:
+#             branches:
+#               only: main
           
 
-      - deploy-develop:
-          requires:
-            - test
-            - build
-          filters:
-            branches:
-              only: develop
+#       - deploy-develop:
+#           requires:
+#             - test
+#             - build
+#           filters:
+#             branches:
+#               only: develop
 
-      - deploy-prod:
-          requires:
-            - build
-            - test
-            - hold
-          filters:
-            branches:
-              only: main
+#       - deploy-prod:
+#           requires:
+#             - build
+#             - test
+#             - hold
+#           filters:
+#             branches:
+#               only: main
