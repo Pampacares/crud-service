@@ -1,7 +1,8 @@
 version: 2.1
 
 jobs:
-  build: 
+  build:
+    working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0
     steps:
@@ -10,36 +11,34 @@ jobs:
           name: Build
           command: mvn -B -DskipTests clean package
   test:
-      docker:
-        - image: cimg/openjdk:11.0
-      steps:
-        - checkout
-        - run:
-            name: Test
-            command: mvn test
+    working_directory: ~/repo
+    docker:
+      - image: cimg/openjdk:11.0
+    steps:
+      - checkout
+      - run:
+          name: Test
+          command: mvn test
   deploy-develop:
-      docker:
-        - image: cimg/openjdk:11.0
+    docker:
+      - image: cimg/openjdk:11.0
 
-      steps:
-        - checkout
+    steps:
+      - checkout
 
   deploy-prod:
-      docker:
-        - image: cimg/openjdk:11.0
+    docker:
+      - image: cimg/openjdk:11.0
 
-      steps:
-        - checkout
+    steps:
+      - checkout
 
 workflows:
   version: 2
   build-and-deploy-on-hold:
     jobs:
-      - build:
-          working_directory: ~/repo
-
+      - build
       - test:
-          working_directory: ~/repo
           requires:
             - build
 
