@@ -6,11 +6,10 @@ jobs:
     machine: 
       image: ubuntu-2004:202010-01
     steps:
+      - checkout
       - run:
-          name: Start container and verify it is working
-          command: |
-            set -x
-            docker-compose up -d
+          name: Start docker
+          command: docker-compose up
   build:
     working_directory: ~/repo
     docker:
