@@ -10,3 +10,56 @@ jobs:
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
+  test:
+      docker:
+        - image: cimg/openjdk:11.0
+      steps:
+        - checkout
+        - run:
+            name: Test
+            command: mvn test
+  deploy-develop:
+      docker:
+        - image: cimg/openjdk:11.0
+
+      steps:
+        - checkout
+
+  deploy-prod:
+      docker:
+        - image: cimg/openjdk:11.0
+
+      steps:
+        - checkout
+
+workflows:
+  version: 2
+  build-and-deploy-on-hold:
+    jobs:
+      - build:
+
+      - test:
+          requires:
+            - build
+
+      - hold:
+          type: approval
+          requires:
+            - test
+
+      - deploy-develop:
+          requires:
+            - test
+            - build
+          filters:
+            branches:
+              only: develop
+
+      - deploy-prod:
+          requires:
+            - build
+            - test
+            - hold
+          filters:
+            branches:
+              only: main
