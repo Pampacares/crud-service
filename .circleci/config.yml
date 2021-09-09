@@ -19,6 +19,7 @@ jobs:
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
+
   Tests:
     working_directory: ~/repo
     docker:
@@ -32,6 +33,7 @@ jobs:
       - run:
           name: Test
           command: mvn test
+
   Deploy-in-develop:
     docker:
       - image: cimg/openjdk:11.0
@@ -57,7 +59,7 @@ workflows:
   version: 2
   Build-Test-Deploy:
     jobs:
-#       - start-docker
+#     - start-docker
       - Build
       - Tests:
           requires:
@@ -78,6 +80,7 @@ workflows:
           filters:
             branches:
               only: develop
+              ignore: /pull\/.*/
        
       - Deploy-in-staging:
           requires:
@@ -86,6 +89,7 @@ workflows:
           filters:
             branches:
               only: /release\/.*/
+              ignore: /pull\/.*/
 
       - Deploy-in-production:
           requires:
@@ -95,3 +99,4 @@ workflows:
           filters:
             branches:
               only: main
+              ignore: /pull\/.*/
