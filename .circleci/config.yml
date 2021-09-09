@@ -23,6 +23,10 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0
+      - image: circleci/mysql:latest
+        environment:
+          MYSQL_ROOT_PASSWORD: admin
+          MYSQL_DATABASE: crud_db
     steps:
       - checkout
       - run:
