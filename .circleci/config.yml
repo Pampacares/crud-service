@@ -1,16 +1,16 @@
 version: 2.1
 
 jobs:
-  start-docker:
-    working_directory: ~/repo
-    machine: 
-      image: ubuntu-2004:202010-01
-    steps:
-      - checkout
-      - run:
-          name: Start docker
-          command: docker-compose up -d
-  build:
+#   start-docker:
+#     working_directory: ~/repo
+#     machine: 
+#       image: ubuntu-2004:202010-01
+#     steps:
+#       - checkout
+#       - run:
+#           name: Start docker
+#           command: docker-compose up -d
+  Build:
     working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0
@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
-  test:
+  Tests:
     working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0
@@ -32,14 +32,21 @@ jobs:
       - run:
           name: Test
           command: mvn test
-  deploy-develop:
+  Deploy-in-develop:
+    docker:
+      - image: cimg/openjdk:11.0
+
+    steps:
+      - checkout
+   
+  Deploy-in-staging:
     docker:
       - image: cimg/openjdk:11.0
 
     steps:
       - checkout
 
-  deploy-prod:
+  Deploy-in-production:
     docker:
       - image: cimg/openjdk:11.0
 
@@ -50,36 +57,41 @@ workflows:
   version: 2
   build-and-deploy-on-hold:
     jobs:
-      - start-docker
-#       - build:
-#           requires:
-#             - start-docker
-      - test:
+#       - start-docker
+      - Build
+      - Tests:
           requires:
-            - start-docker
+            - build
 
-#       - hold:
-#           type: approval
-#           requires:
-#             - test
-#           filters:
-#             branches:
-#               only: main
+      - hold:
+          type: approval
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
           
+      - Deploy-in-develop:
+          requires:
+            - test
+            - build
+          filters:
+            branches:
+              only: develop
+       
+      - Deploy-in-staging:
+          requires:
+            - test
+            - build
+          filters:
+            branches:
+              only: /release\/.*/
 
-#       - deploy-develop:
-#           requires:
-#             - test
-#             - build
-#           filters:
-#             branches:
-#               only: develop
-
-#       - deploy-prod:
-#           requires:
-#             - build
-#             - test
-#             - hold
-#           filters:
-#             branches:
-#               only: main
+      - Deploy-in-production:
+          requires:
+            - build
+            - test
+            - hold
+          filters:
+            branches:
+              only: main
