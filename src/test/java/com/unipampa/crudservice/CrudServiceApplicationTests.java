@@ -9,7 +9,7 @@ class CrudServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
-		Assert.isTrue(false, "Just for testing");
+		Assert.isTrue(true, "Test passing");
 	}
 
 }
