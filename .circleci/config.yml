@@ -66,14 +66,14 @@ workflows:
       - hold:
           type: approval
           requires:
-            - Test
+            - Tests
           filters:
             branches:
               only: main
           
       - Deploy-in-develop:
           requires:
-            - Test
+            - Tests
             - Build
           filters:
             branches:
@@ -81,7 +81,7 @@ workflows:
        
       - Deploy-in-staging:
           requires:
-            - Test
+            - Tests
             - Build
           filters:
             branches:
@@ -90,7 +90,7 @@ workflows:
       - Deploy-in-production:
           requires:
             - Build
-            - Test
+            - Tests
             - hold
           filters:
             branches:
