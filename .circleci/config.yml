@@ -24,12 +24,16 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0
-      - image: circleci/mysql:latest
-        environment:
-          MYSQL_ROOT_PASSWORD: admin
-          MYSQL_DATABASE: crud_db
     steps:
       - checkout
+      - run:
+          name: Install Docker-Compose
+          command: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          
+      - run:
+          name: Run Docker-Compose
+          command: docker-compose up -d
+          
       - run:
           name: Test
           command: mvn test
