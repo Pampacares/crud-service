@@ -33,6 +33,9 @@ jobs:
           name: Adding permissions
           command: sudo chmod +x /usr/local/bin/docker-compose
       - run:
+          name: version
+          command: docker-compose version
+      - run:
           name: Run Docker-Compose
           command: docker-compose -f docker-compose.yml up -d
           
