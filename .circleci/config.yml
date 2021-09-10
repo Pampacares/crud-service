@@ -32,7 +32,7 @@ jobs:
           
       - run:
           name: Run Docker-Compose
-          command: ls
+          command: docker-compose -f docker-compose.yml up -d
           
       - run:
           name: Test
