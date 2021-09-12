@@ -37,7 +37,7 @@ jobs:
 #       - run: sudo apt-get install mysql-server --allow-unauthenticated
       - run:
           name: Create spreadsheet database
-          command: mysql -u root -p admin -e "create database spreadsheet_db" --protocol=tcp
+          command: mysql -uroot -padmin -e "create database spreadsheet_db" --protocol=tcp
       - run:
           name: Test
           command: mvn test
