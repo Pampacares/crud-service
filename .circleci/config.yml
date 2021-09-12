@@ -31,6 +31,9 @@ jobs:
     steps:
       - checkout
 #     Temporary
+      - run: sudo apt-get update
+      - run: sudo apt-get install mysql-client
+      - run: whoami
       - run: sudo apt-get install mysql-server --allow-unauthenticated
       - run:
           name: Create spreadsheet database
@@ -65,10 +68,10 @@ workflows:
   Build-Test-Deploy:
     jobs:
 #     - start-docker
-      - Build
-      - Tests:
-          requires:
-            - Build
+#       - Build
+      - Tests
+#           requires:
+#             - Build
 
       - hold:
           type: approval
