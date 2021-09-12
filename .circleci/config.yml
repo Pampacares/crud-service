@@ -34,7 +34,7 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install mysql-client
       - run: whoami
-      - run: sudo apt-get install mysql-server --allow-unauthenticated
+#       - run: sudo apt-get install mysql-server --allow-unauthenticated
       - run:
           name: Create spreadsheet database
           command: mysql -u root -p admin -e "create database spreadsheet_db" --protocol=tcp
