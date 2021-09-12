@@ -84,7 +84,7 @@ workflows:
       - Deploy-in-develop:
           requires:
             - Tests
-            - Build
+#             - Build
           filters:
             branches:
               only: develop
@@ -93,7 +93,7 @@ workflows:
       - Deploy-in-staging:
           requires:
             - Tests
-            - Build
+#             - Build
           filters:
             branches:
               only: /release\/.*/
@@ -101,7 +101,7 @@ workflows:
 
       - Deploy-in-production:
           requires:
-            - Build
+#             - Build
             - Tests
             - hold
           filters:
