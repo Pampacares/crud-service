@@ -24,21 +24,16 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0
+      - image: circleci/mysql:latest
+        environment:
+          MYSQL_ROOT_PASSWORD: admin
+          MYSQL_DATABASE: crud_db
     steps:
       - checkout
+#     Temporary
       - run:
-          name: Install Docker-Compose
-          command: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-      - run:
-          name: Adding permissions
-          command: sudo chmod +x /usr/local/bin/docker-compose
-      - run:
-          name: version
-          command: docker-compose version
-      - run:
-          name: Run Docker-Compose
-          command: docker-compose -f docker-compose.yml up -d
-          
+          name: Create spreadsheet database
+          command: mysql -u root -p admin -e "create database spreadsheet_db" --protocol=tcp
       - run:
           name: Test
           command: mvn test
