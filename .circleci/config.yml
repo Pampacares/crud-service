@@ -102,6 +102,7 @@ workflows:
 #               only: develop
 #               ignore: /pull\/.*/
           app-name: "crud-service-develop"
+          api-key: "4fa609ea-7634-4aab-acfc-d4ee72612b2b"
 #       - Deploy-in-develop:
 #           requires:
 #             - Tests
