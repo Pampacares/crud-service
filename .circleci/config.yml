@@ -56,7 +56,6 @@ jobs:
     environment:
       HEROKU_APP_NAME: "crud-service-develop"
       HEROKU_API_KEY: 4fa609ea-7634-4aab-acfc-d4ee72612b2b
-      CIRCLE_BRANCH: "develop"
     steps:
       - checkout
       - heroku/install
@@ -81,29 +80,29 @@ workflows:
   Build-Test:
     jobs:
 #     - start-docker
-      - Build
-      - Tests:
-          requires:
-            - Build
+#       - Build
+#       - Tests:
+#           requires:
+#             - Build
 
       - hold:
           type: approval
-          requires:
-            - Tests
+#           requires:
+#             - Tests
           filters:
             branches:
               only: main
               
-      - heroku/deploy-via-git:
-          requires:
-            - Tests
-#           filters:
-#             branches:
-#               only: develop
-#               ignore: /pull\/.*/
-          app-name: "crud-service-develop"
-          api-key: 4fa609ea-7634-4aab-acfc-d4ee72612b2b
-#       - Deploy-in-develop:
+#       - heroku/deploy-via-git:
+#           requires:
+#             - Tests
+# #           filters:
+# #             branches:
+# #               only: develop
+# #               ignore: /pull\/.*/
+#           app-name: "crud-service-develop"
+#           api-key: 4fa609ea-7634-4aab-acfc-d4ee72612b2b
+      - Deploy-in-develop
 #           requires:
 #             - Tests
 #             - Build
