@@ -60,13 +60,6 @@ jobs:
     steps:
       - checkout
       - heroku/install
-#       - run:
-#           name: Setup Heroku
-#           command: bash .circleci/setup-heroku.sh
-#       - run:
-#           name: Deploy
-#           command: |
-#             git checkout origin/develop
       - heroku/deploy-via-git
    
   Deploy-in-staging:
@@ -88,42 +81,42 @@ workflows:
   Build-Test-Deploy:
     jobs:
 #     - start-docker
-#       - Build
-#       - Tests:
-#           requires:
-#             - Build
+      - Build
+      - Tests:
+          requires:
+            - Build
 
       - hold:
           type: approval
-#           requires:
-#             - Tests
+          requires:
+            - Tests
           filters:
             branches:
               only: main
           
-      - Deploy-in-develop
-#           requires:
-#             - Tests
-#             - Build
-#           filters:
-#             branches:
-#               only: develop
-#               ignore: /pull\/.*/
+      - Deploy-in-develop:
+          requires:
+            - Tests
+            - Build
+          filters:
+            branches:
+              only: develop
+              ignore: /pull\/.*/
        
       - Deploy-in-staging:
-#           requires:
-#             - Tests
-#             - Build
+          requires:
+            - Tests
+            - Build
           filters:
             branches:
               only: /release\/.*/
               ignore: /pull\/.*/
 
       - Deploy-in-production:
-#           requires:
-#             - Build
-#             - Tests
-#             - hold
+          requires:
+            - Build
+            - Tests
+            - hold
           filters:
             branches:
               only: main
