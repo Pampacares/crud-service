@@ -54,6 +54,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: git show-ref
+          command: git show-ref
+      - run:
           name: Deploy Develop to Heroku
           command: |
             git push https://heroku:4fa609ea-7634-4aab-acfc-d4ee72612b2b@git.heroku.com/crud-service-develop.git master
@@ -77,10 +80,10 @@ workflows:
   Build-Test-Deploy:
     jobs:
 #     - start-docker
-      - Build
-      - Tests:
-          requires:
-            - Build
+#       - Build
+#       - Tests:
+#           requires:
+#             - Build
 
       - hold:
           type: approval
@@ -90,29 +93,29 @@ workflows:
             branches:
               only: main
           
-      - Deploy-in-develop:
-          requires:
-            - Tests
-            - Build
+      - Deploy-in-develop
+#           requires:
+#             - Tests
+#             - Build
 #           filters:
 #             branches:
 #               only: develop
 #               ignore: /pull\/.*/
        
       - Deploy-in-staging:
-          requires:
-            - Tests
-            - Build
+#           requires:
+#             - Tests
+#             - Build
           filters:
             branches:
               only: /release\/.*/
               ignore: /pull\/.*/
 
       - Deploy-in-production:
-          requires:
-            - Build
-            - Tests
-            - hold
+#           requires:
+#             - Build
+#             - Tests
+#             - hold
           filters:
             branches:
               only: main
