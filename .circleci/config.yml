@@ -64,7 +64,7 @@ jobs:
           name: Deploy
           command: |
             git show-ref
-            git push heroku develop:master
+            git push heroku origin/develop:master
             heroku run rake db:migrate
             sleep 5 # sleep for 5 seconds to wait for dynos
             heroku restart
