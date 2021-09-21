@@ -51,6 +51,7 @@ jobs:
   Deploy-in-develop:
     machine:
         enabled: true
+    working_directory: ~/crud-service
     environment:
       HEROKU_APP: "crud-service-develop"
     steps:
@@ -63,7 +64,7 @@ jobs:
           name: Deploy
           command: |
             git show-ref
-            git push heroku origin/develop:refs/master
+            git push heroku develop:master
             heroku run rake db:migrate
             sleep 5 # sleep for 5 seconds to wait for dynos
             heroku restart
