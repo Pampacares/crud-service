@@ -96,6 +96,8 @@ workflows:
   Deploy-in-develop:
     jobs:
       - heroku/deploy-via-git:
+          requires:
+            - Tests
 #           filters:
 #             branches:
 #               only: develop
