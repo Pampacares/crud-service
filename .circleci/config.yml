@@ -49,11 +49,14 @@ jobs:
           command: mvn test
 
   Deploy-in-develop:
-    docker:
-      - image: cimg/openjdk:11.0
-
+    machine:
+      image: ubuntu-1604:202007-01
     steps:
       - checkout
+      - run:
+          name: Deploy Develop to Heroku
+          command: |
+            git push https://heroku:4fa609ea-7634-4aab-acfc-d4ee72612b2b@git.heroku.com/crud-service-develop.git develop
    
   Deploy-in-staging:
     docker:
@@ -91,10 +94,10 @@ workflows:
           requires:
             - Tests
             - Build
-          filters:
-            branches:
-              only: develop
-              ignore: /pull\/.*/
+#           filters:
+#             branches:
+#               only: develop
+#               ignore: /pull\/.*/
        
       - Deploy-in-staging:
           requires:
