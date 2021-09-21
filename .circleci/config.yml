@@ -62,70 +62,67 @@ jobs:
       - heroku/deploy-via-git
    
   Deploy-in-staging:
-    docker:
-      - image: cimg/openjdk:11.0
-
+    executor: heroku/default
+    environment:
+      HEROKU_APP_NAME: "crud-service-staging"
+      HEROKU_API_KEY: 4fa609ea-7634-4aab-acfc-d4ee72612b2b
     steps:
       - checkout
+      - heroku/install
+      - heroku/deploy-via-git
 
   Deploy-in-production:
-    docker:
-      - image: cimg/openjdk:11.0
-
+    executor: heroku/default
+    environment:
+      HEROKU_APP_NAME: "crud-service"
+      HEROKU_API_KEY: 4fa609ea-7634-4aab-acfc-d4ee72612b2b
     steps:
       - checkout
+      - heroku/install
+      - heroku/deploy-via-git
 
 workflows:
   version: 2
   Build-Test:
     jobs:
 #     - start-docker
-#       - Build
-#       - Tests:
-#           requires:
-#             - Build
+      - Build
+      - Tests:
+          requires:
+            - Build
 
       - hold:
           type: approval
-#           requires:
-#             - Tests
+          requires:
+            - Tests
           filters:
             branches:
               only: main
               
-#       - heroku/deploy-via-git:
-#           requires:
-#             - Tests
-# #           filters:
-# #             branches:
-# #               only: develop
-# #               ignore: /pull\/.*/
-#           app-name: "crud-service-develop"
-#           api-key: 4fa609ea-7634-4aab-acfc-d4ee72612b2b
-      - Deploy-in-develop
-#           requires:
-#             - Tests
-#             - Build
-#           filters:
-#             branches:
-#               only: develop
-#               ignore: /pull\/.*/
+      - Deploy-in-develop:
+          requires:
+            - Tests
+            - Build
+          filters:
+            branches:
+              only: develop
+              ignore: /pull\/.*/
        
-#       - Deploy-in-staging:
-#           requires:
-#             - Tests
-#             - Build
-#           filters:
-#             branches:
-#               only: /release\/.*/
-#               ignore: /pull\/.*/
+      - Deploy-in-staging:
+          requires:
+            - Tests
+            - Build
+          filters:
+            branches:
+              only: /release\/.*/
+              ignore: /pull\/.*/
 
-#       - Deploy-in-production:
-#           requires:
-#             - Build
-#             - Tests
-#             - hold
-#           filters:
-#             branches:
-#               only: main
-#               ignore: /pull\/.*/
+      - Deploy-in-production:
+          requires:
+            - Build
+            - Tests
+            - hold
+          filters:
+            branches:
+              only: main
+              ignore: /pull\/.*/
