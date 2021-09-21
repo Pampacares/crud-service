@@ -50,16 +50,19 @@ jobs:
 
   Deploy-in-develop:
     machine:
-      image: ubuntu-1604:202007-01
+        enabled: true
+    environment:
+      HEROKU_APP: "crud-service-develop"
     steps:
       - checkout
       - run:
-          name: git show-ref
-          command: git show-ref
+          name: Setup Heroku
+          command: bash .circleci/setup-heroku.sh
+      
       - run:
-          name: Deploy Develop to Heroku
+          name: Deploy
           command: |
-            git push https://heroku:4fa609ea-7634-4aab-acfc-d4ee72612b2b@git.heroku.com/crud-service-develop.git origin/develop
+            git push heroku origin/develop
    
   Deploy-in-staging:
     docker:
