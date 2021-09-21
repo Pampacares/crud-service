@@ -63,7 +63,9 @@ jobs:
       - run:
           name: Deploy
           command: |
-            git push heroku origin/develop:heroku/main
+            git show-ref
+            git checkout origin/develop
+            git push heroku main
    
   Deploy-in-staging:
     docker:
