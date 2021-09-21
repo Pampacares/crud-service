@@ -59,7 +59,7 @@ jobs:
       - run:
           name: Deploy Develop to Heroku
           command: |
-            git push https://heroku:4fa609ea-7634-4aab-acfc-d4ee72612b2b@git.heroku.com/crud-service-develop.git master
+            git push https://heroku:4fa609ea-7634-4aab-acfc-d4ee72612b2b@git.heroku.com/crud-service-develop.git origin/develop
    
   Deploy-in-staging:
     docker:
