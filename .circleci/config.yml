@@ -78,7 +78,7 @@ jobs:
 
 workflows:
   version: 2
-  Build-Test-Deploy:
+  Build-Test:
     jobs:
 #     - start-docker
       - Build
@@ -93,31 +93,38 @@ workflows:
           filters:
             branches:
               only: main
-          
-      - Deploy-in-develop:
-          requires:
-            - Tests
-            - Build
-          filters:
-            branches:
-              only: develop
-              ignore: /pull\/.*/
+  Deploy-in-develop:
+    jobs:
+      - heroku/deploy-via-git:
+#           filters:
+#             branches:
+#               only: develop
+#               ignore: /pull\/.*/
+          app-name: "crud-service-develop"
+#       - Deploy-in-develop:
+#           requires:
+#             - Tests
+#             - Build
+#           filters:
+#             branches:
+#               only: develop
+#               ignore: /pull\/.*/
        
-      - Deploy-in-staging:
-          requires:
-            - Tests
-            - Build
-          filters:
-            branches:
-              only: /release\/.*/
-              ignore: /pull\/.*/
+#       - Deploy-in-staging:
+#           requires:
+#             - Tests
+#             - Build
+#           filters:
+#             branches:
+#               only: /release\/.*/
+#               ignore: /pull\/.*/
 
-      - Deploy-in-production:
-          requires:
-            - Build
-            - Tests
-            - hold
-          filters:
-            branches:
-              only: main
-              ignore: /pull\/.*/
+#       - Deploy-in-production:
+#           requires:
+#             - Build
+#             - Tests
+#             - hold
+#           filters:
+#             branches:
+#               only: main
+#               ignore: /pull\/.*/
