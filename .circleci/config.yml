@@ -87,8 +87,8 @@ workflows:
 
       - hold:
           type: approval
-          requires:
-            - Tests
+#           requires:
+#             - Tests
           filters:
             branches:
               only: main
