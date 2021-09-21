@@ -63,7 +63,6 @@ jobs:
       - run:
           name: Deploy
           command: |
-            git checkout -b origin/develop
             git push heroku origin/develop:heroku/main
    
   Deploy-in-staging:
