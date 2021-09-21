@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  heroku: circleci/heroku@1.2.6
+
 jobs:
 #   start-docker:
 #     working_directory: ~/repo
@@ -49,23 +52,21 @@ jobs:
           command: mvn test
 
   Deploy-in-develop:
-    machine:
-        enabled: true
-    working_directory: ~/crud-service
+    executor: heroku/default
     environment:
-      HEROKU_APP: "crud-service-develop"
+      HEROKU_APP_NAME: "crud-service-develop"
+      CIRCLE_BRANCH: "develop"
     steps:
       - checkout
-      - run:
-          name: Setup Heroku
-          command: bash .circleci/setup-heroku.sh
-      
-      - run:
-          name: Deploy
-          command: |
-            git show-ref
-            git checkout origin/develop
-            git push heroku origin/develop:heroku/main
+      - heroku/install
+#       - run:
+#           name: Setup Heroku
+#           command: bash .circleci/setup-heroku.sh
+#       - run:
+#           name: Deploy
+#           command: |
+#             git checkout origin/develop
+      - heroku/deploy-via-git
    
   Deploy-in-staging:
     docker:
