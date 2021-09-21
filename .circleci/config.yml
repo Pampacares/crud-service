@@ -62,7 +62,9 @@ jobs:
       - run:
           name: Deploy
           command: |
-            git push heroku origin/develop
+            git add .
+            git commit -am "Deplot develop"
+            git push heroku master
    
   Deploy-in-staging:
     docker:
