@@ -65,7 +65,7 @@ jobs:
           command: |
             git show-ref
             git checkout origin/develop
-            git push heroku origin/develop:main
+            git push heroku origin/develop
    
   Deploy-in-staging:
     docker:
