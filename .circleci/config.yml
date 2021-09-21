@@ -83,7 +83,7 @@ jobs:
 
 workflows:
   version: 2
-  Build-Test:
+  Build-Test-Deploy:
     jobs:
 #     - start-docker
       - Build
