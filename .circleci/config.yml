@@ -55,6 +55,7 @@ jobs:
     executor: heroku/default
     environment:
       HEROKU_APP_NAME: "crud-service-develop"
+      HEROKU_API_KEY: 4fa609ea-7634-4aab-acfc-d4ee72612b2b
       CIRCLE_BRANCH: "develop"
     steps:
       - checkout
