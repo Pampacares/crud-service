@@ -64,8 +64,7 @@ jobs:
           name: Deploy
           command: |
             git checkout -b origin/develop
-            git pull heroku main
-            git push heroku origin/develop:main
+            git push heroku origin/develop:heroku/main
    
   Deploy-in-staging:
     docker:
