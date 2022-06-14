@@ -1,8 +1,7 @@
 server:
-  port: 8082
+  port: 0
   servlet:
-    context-path: /crudService
-
+    context-path: '/crud-service/'
 spring:
   application:
     name: crudService
@@ -22,6 +21,7 @@ spring:
 
 eureka:
   instance:
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
     hostname: localhost
   client:
     serviceUrl:
