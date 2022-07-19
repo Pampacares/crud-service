@@ -31,8 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
-
 storage/
 
 ### Database ###
 src/main/**/resources/application.yml
+
+### CircleCi ###
+.circleci/config.yml
+docker-compose.yml
