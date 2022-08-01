@@ -30,9 +30,6 @@ public class AmostraDTO {
     private Proprietario proprietario;
 
     @NotBlank
-    private List<Localizacao> localizacoes;
-
-    @NotBlank
     private List<Sintoma> sintomas;
 
     @NotBlank

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,14 +19,11 @@ public class Proprietario {
   private UUID id;
 
   @Column(nullable = false, length = 50)
+  private Long numCartaoSus;
+
+  @Column(nullable = false, length = 50)
   private String nome;
 
-  @OneToOne
-  private Amostra amostra;
-
-  @OneToMany
-  private List<Localizacao> localizacoes;
-
-  @OneToMany
-  private List<Cao> caes;
+  @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Cao> caes = new ArrayList<Cao>();
 }

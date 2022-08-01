@@ -5,8 +5,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-
-
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
@@ -34,7 +32,7 @@ public class Localizacao {
   @Column(nullable = false)
   private Float longitude;
 
-  @ManyToOne
-  private Proprietario proprietario;
-
+  @OneToOne
+  @JoinColumn(name = "cao_id")
+  private Cao cao;
 }

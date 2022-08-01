@@ -2,10 +2,13 @@ package com.unipampa.crudservice.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
+
 import java.util.UUID;
 
+@Getter
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
@@ -34,6 +37,10 @@ public class Cao {
   private Boolean usaColeira;
 
   @ManyToOne
+  @JoinColumn(name = "proprietario_id", nullable = false)
   private Proprietario proprietario;
 
+  @OneToOne(mappedBy = "cao", cascade = CascadeType.ALL)
+  @PrimaryKeyJoinColumn
+  private Localizacao localizacao;
 }

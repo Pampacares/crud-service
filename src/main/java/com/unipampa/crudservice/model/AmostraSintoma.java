@@ -1,12 +1,10 @@
 package com.unipampa.crudservice.model;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,24 +16,26 @@ import lombok.Setter;
 @Entity
 public class AmostraSintoma {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  @EmbeddedId
+  private AmostraSintomaId id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "amostra_id", insertable = false, updatable = false)
+  @MapsId("amostraId")
   private Amostra amostra;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "sintoma_id", insertable = false, updatable = false)
+  @MapsId("sintomaId")
   private Sintoma sintoma;
 
-  private Long intensidade;
+  private String outro;
 
-  public AmostraSintoma(Amostra amostra, Sintoma sintoma, Long intensidade) {
+  private int intensidade;
+
+  public AmostraSintoma(Amostra amostra, Sintoma sintoma, int intensidade) {
     this.amostra = amostra;
     this.sintoma = sintoma;
     this.intensidade = intensidade;
+    this.id = new AmostraSintomaId(amostra.getId(), sintoma.getId());
   }
 
 }

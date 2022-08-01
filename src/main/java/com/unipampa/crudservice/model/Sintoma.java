@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -18,6 +21,6 @@ public class Sintoma {
   @Column(nullable = false, length = 50)
   private String nome;
 
-  @ManyToOne
-  private Amostra amostra;
+  @OneToMany(mappedBy = "amostra", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AmostraSintoma> amostras = new ArrayList<AmostraSintoma>();
 }

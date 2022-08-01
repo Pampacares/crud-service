@@ -23,9 +23,6 @@ public class AmostraController {
     private IProprietarioService proprietarioService;
 
     @Autowired
-    private ILocalizacaoService localizacaoService;
-
-    @Autowired
     private IExameService exameService;
 
     @Autowired
@@ -41,23 +38,18 @@ public class AmostraController {
     public void salvarGeral(@RequestBody AmostraDTO dto){
 
         Proprietario proprietario = caputurarProprietario(dto);
-        Acao acao = caputurarAcao(dto);
+        Acao acao = capturarAcao(dto);
         Amostra amostra = caputurarAmostra(dto);
 
-        List<Localizacao> localizacoes = dto.getProprietario().getLocalizacoes().stream().collect(Collectors.toList());
         List<Exame> exames = dto.getExames().stream().collect(Collectors.toList());
         List<Sintoma> sintomas = dto.getSintomas().stream().collect(Collectors.toList());
         List<Cao> caes = dto.getProprietario().getCaes().stream().collect(Collectors.toList());
 
-        proprietario.setLocalizacoes(localizacoes);
         proprietario.setCaes(caes);
         amostra.setExames(exames);
         amostra.setAcao(acao);
-        amostra.setSintomas(sintomas);
-        amostra.setProprietario(proprietario);
 
         salvarCaes(caes);
-        salvarLocalizacoes(localizacoes);
         salvarExames(exames);
         salvarSintomas(sintomas);
         acaoService.salvarAcao(acao);
@@ -69,9 +61,6 @@ public class AmostraController {
         caes.stream().forEach(e -> caoService.salvarCao(e));
     }
 
-    public void salvarLocalizacoes(List<Localizacao> localizacoes){
-        localizacoes.stream().forEach(e -> localizacaoService.salvarLocalizacao(e));
-    }
 
     public void salvarSintomas(List<Sintoma> sintomas){
         sintomas.stream().forEach(e -> sintomaService.salvarSintoma(e));
@@ -88,7 +77,7 @@ public class AmostraController {
         return amostra;
     }
 
-    public Acao caputurarAcao(AmostraDTO dto){
+    public Acao capturarAcao(AmostraDTO dto){
         Acao acao = new Acao();
         acao.setNome(dto.getAcao().getNome());
         return acao;

@@ -18,6 +18,4 @@ public class Acao {
   @Column(nullable = false, unique = true, length = 50)
   private String nome;
 
-  @OneToOne
-  private Amostra amostra;
 }

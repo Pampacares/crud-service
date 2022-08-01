@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +18,7 @@ public class Amostra {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private UUID numAmostra;
+  private UUID id;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
   private Date data;
@@ -28,15 +30,13 @@ public class Amostra {
   private Boolean morreu;
 
   @OneToOne
-  private Proprietario proprietario;
-
-  @OneToOne
   private Acao acao;
 
-  @OneToMany
-  private List<Sintoma> sintomas;
+  @OneToMany(mappedBy = "sintoma", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<AmostraSintoma> sintomas = new ArrayList<AmostraSintoma>();
 
-  @OneToMany
-  private List<Exame> exames;
+  @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Exame> exames = new ArrayList<Exame>();
+
 
 }
