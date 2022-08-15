@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/salvar")
@@ -31,33 +30,14 @@ public class AmostraController {
     @Autowired
     private ISintomaService sintomaService;
 
-    @Autowired
-    private IAmostraService amostraService;
-
-    @Autowired
-    private IAcaoService acaoService;
 
     @PostMapping("/geral")
     public void salvarGeral(@RequestBody AmostraDTO dto){
 
         Proprietario proprietario = caputurarProprietario(dto);
-        Acao acao = caputurarAcao(dto);
-        Amostra amostra = caputurarAmostra(dto);
 
-        List<Exame> exames = dto.getExames().stream().collect(Collectors.toList());
-        List<Sintoma> sintomas = dto.getSintomas().stream().collect(Collectors.toList());
-        List<Cao> caes = dto.getProprietario().getCaes().stream().collect(Collectors.toList());
 
-        proprietario.setCaes(caes);
-        amostra.setExames(exames);
-        amostra.setAcao(acao);
-
-        salvarCaes(caes);
-        salvarExames(exames);
-        salvarSintomas(sintomas);
-        acaoService.salvarAcao(acao);
         proprietarioService.salvarProprietario(proprietario);
-        amostraService.salvarAmostra(amostra);
     }
 
     public void salvarCaes(List<Cao> caes){
@@ -78,20 +58,14 @@ public class AmostraController {
 
     public Amostra caputurarAmostra(AmostraDTO dto){
         Amostra amostra = new Amostra();
-        amostra.setLvc(dto.getAmostra().getLvc());
-        amostra.setMorreu(dto.getAmostra().getMorreu());
         return amostra;
     }
 
-    public Acao caputurarAcao(AmostraDTO dto){
-        Acao acao = new Acao();
-        acao.setNome(dto.getAcao().getNome());
-        return acao;
-    }
 
     public Proprietario caputurarProprietario(AmostraDTO dto){
         Proprietario proprietario = new Proprietario();
         proprietario.setNome(dto.getProprietario().getNome());
+        proprietario.setNumCartaoSus(dto.getProprietario().getNumCartaoSus());
         return proprietario;
     }
 }
