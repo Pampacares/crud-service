@@ -23,6 +23,9 @@ public class AmostraController {
     private IProprietarioService proprietarioService;
 
     @Autowired
+    private ILocalizacaoService localizacaoService;
+
+    @Autowired
     private IExameService exameService;
 
     @Autowired
@@ -38,7 +41,7 @@ public class AmostraController {
     public void salvarGeral(@RequestBody AmostraDTO dto){
 
         Proprietario proprietario = caputurarProprietario(dto);
-        Acao acao = capturarAcao(dto);
+        Acao acao = caputurarAcao(dto);
         Amostra amostra = caputurarAmostra(dto);
 
         List<Exame> exames = dto.getExames().stream().collect(Collectors.toList());
@@ -61,6 +64,9 @@ public class AmostraController {
         caes.stream().forEach(e -> caoService.salvarCao(e));
     }
 
+    public void salvarLocalizacoes(List<Localizacao> localizacoes){
+        localizacoes.stream().forEach(e -> localizacaoService.salvarLocalizacao(e));
+    }
 
     public void salvarSintomas(List<Sintoma> sintomas){
         sintomas.stream().forEach(e -> sintomaService.salvarSintoma(e));
@@ -77,7 +83,7 @@ public class AmostraController {
         return amostra;
     }
 
-    public Acao capturarAcao(AmostraDTO dto){
+    public Acao caputurarAcao(AmostraDTO dto){
         Acao acao = new Acao();
         acao.setNome(dto.getAcao().getNome());
         return acao;
