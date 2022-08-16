@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/salvar")
+@RequestMapping(value = "/amostra")
 public class AmostraController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class AmostraController {
     private ISintomaService sintomaService;
 
 
-    @PostMapping("/geral")
+    @PostMapping("/inserir")
     public void salvarGeral(@RequestBody AmostraDTO dto){
 
         Proprietario proprietario = caputurarProprietario(dto);
